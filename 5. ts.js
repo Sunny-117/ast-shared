@@ -10,6 +10,7 @@ const TypeAnnotationMap = {
   TSObjectKeyword: "ObjectExpression",
   TSTypeReference: "ArrayExpression",
 };
+
 const myTsCheckPlugin = {
   pre(file) {
     file.set("errors", []);

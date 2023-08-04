@@ -1,13 +1,7 @@
+const fs = require("fs");
 const { transformSync } = require("@babel/core");
-
-const sourceCode = `
- function getAgeLongName(){
-   var age = 12;
-   console.log(age);
-   var name = 'demo';
-   console.log(name);
- }
- `;
+const originSourceCode = fs.readFileSync("./var.js", "utf8");
+const sourceCode = originSourceCode;
 //压缩其实就是把变量从有意义变成无意义，尽可能的短_、a、b
 const uglifyPlugin = () => {
   return {
@@ -17,6 +11,7 @@ const uglifyPlugin = () => {
         //path.scope.bindings 取出作用域内的所有变量
         //取出后进行重命名
         Object.entries(path.scope.bindings).forEach(([key, binding]) => {
+          // console.log(key);
           const newName = path.scope.generateUid(); //在当前作用域内生成一个新的uid，并且不会和任何本地定义的变量冲突的标识符
           binding.path.scope.rename(key, newName); //进行🐛命名
         });
